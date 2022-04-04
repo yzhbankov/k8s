@@ -28,7 +28,7 @@ function startService({ port }) {
             res.send('Hello world');
         })
 
-        return app;
+        service = app;
 
     } catch (err) {
         logger.error('Bot Service try init');

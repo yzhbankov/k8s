@@ -1,13 +1,13 @@
-FROM node:latest
+FROM node:alpine
 
-WORKDIR /app
-
-COPY ./ ./
-
-RUN yarn install
+WORKDIR /k8s
 
 COPY . .
 
-EXPOSE 3000
+RUN yarn install --frozen-lockfile
 
-CMD ['yarn', 'start']
+ENV NODE_ENV production
+
+EXPOSE 3000:3000
+
+CMD ["npm", "start"]
