@@ -1,0 +1,8 @@
+{
+  "npmClient": "yarn",
+  "packages": [
+    "shared/logger",
+    "shared/repository"
+  ],
+  "version": "1.0.0-alpha.0"
+}
