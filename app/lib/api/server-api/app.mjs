@@ -20,12 +20,18 @@ function startService({ port }) {
     try {
         const app = express();
 
+        const id = Math.floor(Math.random() * 1000_000_000);
+
         app.listen(port, () => {
             console.log(`Example app listening on port ${port}`)
         })
 
         app.get('/', (req, res) => {
-            res.send('Hello world');
+            res.send('Hello world' + id);
+        })
+
+        app.get('/random', (req, res) => {
+            res.send(`${Math.floor(Math.random() * 1000_000_000)}`);
         })
 
         service = app;
