@@ -1,5 +1,5 @@
 Arguments: 
-  /home/rtls/.nvm/versions/node/v14.15.4/bin/node /home/rtls/.nvm/versions/node/v14.15.4/bin/yarn add dotenv-defaults
+  /home/rtls/.nvm/versions/node/v14.15.4/bin/node /home/rtls/.nvm/versions/node/v14.15.4/bin/yarn add db-migrate
 
 PATH: 
   /home/rtls/.nvm/versions/node/v14.15.4/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/var/lib/snapd/snap/bin:/home/rtls/.local/bin:/home/rtls/bin:/home/rtls/.local/bin:/home/rtls/bin
@@ -57,11 +57,13 @@ npm manifest:
     "dependencies": {
       "@rtls-platform/logger": "1.0.0",
       "@rtls-platform/repository": "1.0.0",
-      "dotenv-defaults": "^2.0.1",
       "cross-env": "^7.0.3",
+      "db-migrate": "^0.11.13",
+      "dotenv-defaults": "^2.0.2",
       "express": "^4.17.3",
       "livr": "^2.3.3",
-      "livr-extra-rules": "^1.2.1"
+      "livr-extra-rules": "^1.2.1",
+      "mariadb": "^3.0.0"
     },
     "devDependencies": {
       "c8": "^7.9.0",

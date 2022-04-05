@@ -1,10 +1,10 @@
-// import { createRepository } from '@rtls-platform/repository/index.mjs';
+import { createRepository } from '@rtls-platform/repository/index.mjs';
 import { createLogger, LoggerTypes } from '@rtls-platform/logger/index.mjs';
 import * as App from './lib/api/index.mjs';
 import * as ServerApi from './lib/api/server-api/app.mjs';
 import * as ConfigContainer from './lib/config.cjs';
-// import { createPgDbConnection } from './lib/db/index.mjs';
-// import ModelBase from './lib/models/ModelBase.mjs';
+import { createMariaDbConnection } from './lib/db/index.mjs';
+import ModelBase from './lib/models/ModelBase.mjs';
 
 
 export async function main() {
@@ -19,19 +19,18 @@ export async function main() {
     App.setLogger(logger);
 
     // Init Repository Layer
-    // const repository = createRepository({
-    //     db: createPgDbConnection({
-    //         port: ConfigContainer.config.db.port,
-    //         host: ConfigContainer.config.db.host,
-    //         user: ConfigContainer.config.db.user,
-    //         database: ConfigContainer.config.db.database,
-    //         password: ConfigContainer.config.db.password,
-    //         connectionsLimit: ConfigContainer.config.db.connectionsLimit
-    //     })
-    // });
+    const repository = createRepository({
+        db: createMariaDbConnection({
+            port: ConfigContainer.config.db.port,
+            host: ConfigContainer.config.db.host,
+            user: ConfigContainer.config.db.user,
+            database: ConfigContainer.config.db.database,
+            password: ConfigContainer.config.db.password,
+        })
+    });
 
     // Init Domain Model Layer
-    // ModelBase.setRepository(repository);
+    ModelBase.setRepository(repository);
 
     // Init Controllers Layer (API)
     ServerApi.startServer({

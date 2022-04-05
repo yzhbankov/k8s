@@ -1,0 +1,3 @@
+CREATE TABLE users (
+     id INT DEFAULT NULL
+)

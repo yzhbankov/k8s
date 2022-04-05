@@ -1,5 +1,6 @@
 import express from 'express';
 import logger from '../logger.mjs';
+import { User } from '../../models/index.mjs'
 
 let service = null;
 const CONNECT_ATTEMPTS = 10;
@@ -26,8 +27,25 @@ function startService({ port }) {
             console.log(`Example app listening on port ${port}`)
         })
 
-        app.get('/', (req, res) => {
+        app.get('/', async (req, res) => {
+
             res.send('Hello world' + id);
+        })
+
+        app.get('/save', async (req, res) => {
+            const id = Math.floor(Math.random() * 1000_000_000);
+            await new User().save({ id });
+            res.send(`${id}`);
+        })
+
+        app.get('/read', async (req, res) => {
+            const data = await new User().read();
+            res.json(data);
+        })
+
+        app.get('/clear', async (req, res) => {
+            await new User().clear();
+            res.send('Cleared successfully');
         })
 
         app.get('/random', (req, res) => {

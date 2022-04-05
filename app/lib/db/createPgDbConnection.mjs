@@ -1,27 +1,39 @@
-import pkg from 'pg';
-import { DbError } from '../models/index.mjs'
+import * as mysql from 'mariadb';
+import logger from '../api/logger';
+import { DbError } from '../models';
 
-const { Pool } = pkg;
+async function getConnection(pool, reconnectCount = 0) {
+    try {
+        return await pool.getConnection();
+    } catch(err) {
+        if (reconnectCount < 4) {
+            reconnectCount += 1;
+            logger.info('Fail get connection, try reconnect. Attempting ', reconnectCount);
+            return getConnection(pool, reconnectCount);
+        } else {
+            throw err;
+        }
+    }
+}
 
 function QueryAsync(pool) {
     return async function queryAsync(sqlStatement, params) {
-        if (!sqlStatement) throw new Error('WRONG_SQL_STATEMENT');
+        if (!sqlStatement) throw new DbError('WRONG_SQL_STATEMENT');
         let conn;
         let promise;
         try {
-            conn = await pool.connect();
+            conn = await getConnection(pool);
             if (params) {
                 promise = conn.query(sqlStatement, params);
             } else {
                 promise = conn.query(sqlStatement);
             }
-            const result = await promise;
-            conn.release();
-
-            return result;
-        } catch(err) {
+            return promise;
+        } catch (err) {
+            logger.error('Get connection error: ', err);
+            throw err;
+        } finally {
             if (conn) conn.release(); //release to pool
-            throw new DbError(err);
         }
     }
 }
@@ -38,8 +50,8 @@ function QueryAsync(pool) {
  * @param {Number} options.connectionsLimit - database user
  * @return {Object} - DB API
  */
-export function createPgDbConnection(options) {
-    let pool = new Pool(options);
+export function createMariaDbConnection(options) {
+    let pool = mysql.createPool({ ...options, 'multipleStatements': true });
     return {
         pool,
         queryAsync: QueryAsync(pool),
