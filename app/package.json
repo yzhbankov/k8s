@@ -23,7 +23,8 @@
     "preversion": "",
     "migration:add": "node ../node_modules/db-migrate/bin/db-migrate  -m lib/db/migrations --config lib/db/database.json create $NAME --sql-file",
     "migration:run": "cross-env NODE_ENV=production node ../node_modules/db-migrate/bin/db-migrate up -m lib/db/migrations --config lib/db/database.json",
-    "start": "cross-env NODE_ENV=production node --experimental-modules --es-module-specifier-resolution=node app"
+    "app:run": "cross-env NODE_ENV=production node --experimental-modules --es-module-specifier-resolution=node app",
+    "start": "npm run migration:run && npm run app:run"
   },
   "dependencies": {
     "@rtls-platform/logger": "1.0.0",

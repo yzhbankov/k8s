@@ -20,11 +20,25 @@ spec:
         ports:
         - containerPort: 3306
         env:
-        #- name: MARIADB_RANDOM_ROOT_PASSWORD
         - name: MARIADB_ALLOW_EMPTY_ROOT_PASSWORD
           value: "0" # if it is 1 and root_password is set, root_password takes precedance
         - name: MARIADB_ROOT_PASSWORD
           value: secret
+        - name: MARIADB_DATABASE
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: mariadb-schema
+        - name: MARIADB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: mariadb-username
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: mariadb-password
 ---
 
 apiVersion: v1
