@@ -5,7 +5,7 @@ metadata:
   labels:
     app: maraidb
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: mariadb
@@ -17,6 +17,9 @@ spec:
       containers:
       - name: mariadb
         image: mariadb:10.5
+        volumeMounts:
+          - mountPath: "/var/lib/mysql"
+            name: mariadb-volume
         ports:
         - containerPort: 3306
         env:
@@ -39,6 +42,10 @@ spec:
             secretKeyRef:
               name: mariadb-secret
               key: mariadb-password
+      volumes:
+        - name: mariadb-volume
+          persistentVolumeClaim:
+            claimName: mariadb-pv-claim
 ---
 
 apiVersion: v1
