@@ -1,6 +1,6 @@
 import express from 'express';
 import logger from '../logger.mjs';
-import { User } from '../../models/index.mjs'
+import { User, Zmq } from '../../models/index.mjs'
 
 let service = null;
 const CONNECT_ATTEMPTS = 10;
@@ -45,6 +45,16 @@ function startService({ port }) {
 
         app.get('/clear', async (req, res) => {
             await new User().clear();
+            res.send('Cleared successfully');
+        })
+
+        app.get('/read_zmq', async (req, res) => {
+            const data = await new Zmq().read();
+            res.json(data);
+        })
+
+        app.get('/clear_zmq', async (req, res) => {
+            await new Zmq().clear();
             res.send('Cleared successfully');
         })
 

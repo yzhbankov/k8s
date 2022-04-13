@@ -1,4 +1,5 @@
 import * as zmq from 'zeromq';
+import { Zmq } from '../../models/index.mjs'
 import logger from '../logger.mjs';
 
 
@@ -21,6 +22,7 @@ export async function startService({ zmqPubSubProxydUrl }) {
           try {
                const rawMessage = buffer.toString('utf8');
                logger.info('No controller for message: ', rawMessage);
+               await new Zmq().save({ msg: rawMessage });
           } catch (e) {
                logger.error(e);
           }

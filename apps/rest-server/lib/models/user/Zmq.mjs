@@ -1,18 +1,18 @@
 import ModelBase from '../ModelBase.mjs';
 
-export class User extends ModelBase {
+export class Zmq extends ModelBase {
     /**
-     * @typedef {Class} User
+     * @typedef {Class} Zmq
      * @property save
      */
 
     /**
      * @method
-     * @param {Number} id - identifier
+     * @param {Number} msg - message
      * @returns {Promise<Object>}
      */
     async save(params) {
-        return this.repository.user.save(params);
+        return this.repository.zmq.save(params);
     }
 
     /**
@@ -21,7 +21,7 @@ export class User extends ModelBase {
      * @returns {Promise<Object>}
      */
      async saveZmq(params) {
-        return this.repository.user.saveZmq(params);
+        return this.repository.zmq.save(params);
     }
 
     /**
@@ -29,7 +29,7 @@ export class User extends ModelBase {
      * @returns {Promise<Object>}
      */
     async read() {
-        return this.repository.user.read();
+        return this.repository.zmq.read();
     }
 
     /**
@@ -37,6 +37,6 @@ export class User extends ModelBase {
      * @returns {Promise<Object>}
      */
      async clear() {
-        return this.repository.user.clear();
+        return this.repository.zmq.clear();
     }    
 }
