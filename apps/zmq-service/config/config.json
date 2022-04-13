@@ -1,0 +1,6 @@
+{
+    "logLevel": "{{K8S_LOG_LEVEL}}",
+    "serviceName": "{{K8S_SERVICE_NAME}}",
+    "port": "{{K8S_SERVER_POR}}",
+    "zmqUrl": "{{K8S_ZMQ_HOST}}"
+}

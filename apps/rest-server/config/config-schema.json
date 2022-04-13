@@ -1,0 +1,18 @@
+{
+    "logLevel": ["required", "string"],
+    "serviceName": ["required", "string"],
+    "port": ["required", "positive_integer"],
+    "zmqUrl": ["required", "string"],
+    "db": [
+        "required",
+        {
+            "nested_object": {
+                "host": ["required", "string"],
+                "port": ["required", "positive_integer"],
+                "database": ["required", "string"],
+                "user": ["required", "string"],
+                "password": ["required", "string"]
+            }
+        }
+    ]
+}
