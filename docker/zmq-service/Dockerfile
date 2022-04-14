@@ -1,13 +1,15 @@
-FROM node:alpine
+FROM node
 
 WORKDIR /k8s
 
-COPY ../../ .
+COPY . .
 
-RUN yarn install --frozen-lockfile
+RUN npm install zeromq@6.0.0-beta.6
+RUN npm install --frozen-lockfile
 
 ENV NODE_ENV production
 
-EXPOSE 3000:3000
+EXPOSE 3001:3001
+EXPOSE 7001:7001
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "start:zmq"]

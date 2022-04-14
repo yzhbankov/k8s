@@ -18,6 +18,7 @@ export async function main() {
         },
     });
     App.setLogger(logger);
+    console.log(ConfigContainer.config);
 
     // Init Repository Layer
     const repository = createRepository({
