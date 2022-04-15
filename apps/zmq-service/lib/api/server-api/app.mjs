@@ -22,10 +22,14 @@ export async function stopServer() {
 function startService({ port, zmqUrl }) {
     try {
         const app = express();
-        sock.bind(zmqUrl);
+        sock.bind(`${zmqUrl}:7001`);
 
         app.listen(port, () => {
             console.log(`Example app listening on port ${port}`)
+        })
+
+        app.get('/', async (req, res) => {
+            res.send('Hello');
         })
 
         app.get('/send_msg', async (req, res) => {

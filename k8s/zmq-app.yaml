@@ -1,44 +1,45 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-app-deployment
+  name: zmq-app-deployment
   labels: 
-    app: node-app
+    app: zmq-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: node-app
+      app: zmq-app
   template:
     metadata:
       labels:
-        app: node-app
+        app: zmq-app
     spec:
       containers:
-      - name: node-app
-        image: yzhbankov/node-app
+      - name: zmq-app
+        image: yzhbankov/zmq-app
         ports:
-        - containerPort: 3000
-          name: node-port
+        - containerPort: 3001
+          name: server-port
         - containerPort: 7001
           name: zmq-port
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: node-app-service
+  name: zmq-app-service
 spec:
   selector:
-    app: node-app
+    app: zmq-app
   type: LoadBalancer
   ports:
   - protocol: TCP
-    name: http-3000
-    port: 3000
-    targetPort: 3000
-    nodePort: 30001
+    name: http-3001
+    port: 3001
+    targetPort: 3001
+    nodePort: 30002
   - protocol: TCP
     name: tcp-7001
     port: 7001
     targetPort: 7001
+
     
