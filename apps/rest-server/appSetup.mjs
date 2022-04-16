@@ -1,5 +1,6 @@
 import { createRepository } from '@rtls-platform/repository/index.mjs';
 import { createLogger, LoggerTypes } from '@rtls-platform/logger/index.mjs';
+import { v4 as uuidv4 } from 'uuid';
 import * as App from './lib/api/index.mjs';
 import * as ServerApi from './lib/api/server-api/app.mjs';
 import * as ZmqApi from './lib/api/zmq-api/app.mjs';
@@ -9,6 +10,8 @@ import ModelBase from './lib/models/ModelBase.mjs';
 
 
 export async function main() {
+    const uid = uuidv4();
+
     // Init Logger
     const logger = createLogger({
         type: LoggerTypes.Winston,
@@ -18,7 +21,6 @@ export async function main() {
         },
     });
     App.setLogger(logger);
-    console.log(ConfigContainer.config);
 
     // Init Repository Layer
     const repository = createRepository({
@@ -36,10 +38,12 @@ export async function main() {
 
     // Init Controllers Layer (API)
     ServerApi.startServer({
-        port: ConfigContainer.config.port,
+        uid,
+        port: ConfigContainer.config.serverPort,
     });
 
     ZmqApi.startService({
+        uid,
         zmqPubSubProxydUrl: ConfigContainer.config.zmqUrl
     });
 

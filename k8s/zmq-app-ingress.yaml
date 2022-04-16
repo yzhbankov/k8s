@@ -14,4 +14,3 @@ spec:
             name: zmq-app-service
             port:
               number: 3001
-              

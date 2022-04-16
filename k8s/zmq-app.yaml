@@ -41,5 +41,3 @@ spec:
     name: tcp-7001
     port: 7001
     targetPort: 7001
-
-    

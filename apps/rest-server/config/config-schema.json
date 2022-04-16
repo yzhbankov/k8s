@@ -1,7 +1,7 @@
 {
     "logLevel": ["required", "string"],
     "serviceName": ["required", "string"],
-    "port": ["required", "positive_integer"],
+    "serverPort": ["required", "positive_integer"],
     "zmqUrl": ["required", "string"],
     "db": [
         "required",

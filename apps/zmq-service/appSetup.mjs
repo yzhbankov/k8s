@@ -17,7 +17,7 @@ export async function main() {
 
     // Init Controllers Layer (API)
     ServerApi.startServer({
-        port: ConfigContainer.config.port,
+        port: ConfigContainer.config.serverPort,
         zmqUrl: ConfigContainer.config.zmqUrl
     });
 

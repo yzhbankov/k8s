@@ -15,12 +15,7 @@ export class Repository {
     /**
      * @type {ZmqRepository} returns DB access to user
      */
-    zmq = null;
-
-    /**
-     * @type {UserPhonesRepository} returns DB access to user phonnes
-     */
-    userPhones = null;
+    zmqMsg = null;
 
     /**
      * @param {Object} options - repository options
@@ -28,6 +23,6 @@ export class Repository {
      */
     constructor(options) {
         this.user = new UserRepository(options);
-        this.zmq = new ZmqRepository(options);
+        this.zmqMsg = new ZmqRepository(options);
     }
 }

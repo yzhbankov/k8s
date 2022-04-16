@@ -1,79 +1,72 @@
 import express from 'express';
 import logger from '../logger.mjs';
-import { User, Zmq } from '../../models/index.mjs'
+import { User, ZmqMessage } from '../../models/index.mjs'
 
 let service = null;
 const CONNECT_ATTEMPTS = 10;
 let connectionAttempt = 0;
 
-export function startServer({ port }) {
-    service = startService({ port });
+export function startServer({ port, uid }) {
+    service = startService({ port, uid });
 }
 
 export async function stopServer() {
     if (!service) return;
 
     service.close();
-    logger.info('WS Service stopped');
+    logger.info('REST Server stopped');
 }
 
-function startService({ port }) {
+function startService({ port, uid }) {
     try {
         const app = express();
-
-        const id = Math.floor(Math.random() * 1000_000_000);
 
         app.listen(port, () => {
             console.log(`Example app listening on port ${port}`)
         })
 
         app.get('/', async (req, res) => {
-
-            res.send('Hello world' + id);
+            res.send('Hello, my uid: ', uid);
         })
 
-        app.get('/save', async (req, res) => {
-            const id = Math.floor(Math.random() * 1000_000_000);
+        app.get('/save_usr_msgs', async (req, res) => {
+            const id = uid + ': ' + Math.floor(Math.random() * 1000_000_000);
             await new User().save({ id });
             res.send(`${id}`);
         })
 
-        app.get('/read', async (req, res) => {
+        app.get('/read_usr_msgs', async (req, res) => {
             const data = await new User().read();
             res.json(data);
         })
 
-        app.get('/clear', async (req, res) => {
+        app.get('/clear_usr_msgs', async (req, res) => {
             await new User().clear();
             res.send('Cleared successfully');
         })
 
-        app.get('/read_zmq', async (req, res) => {
-            const data = await new Zmq().read();
+        app.get('/read_zmq_msgs', async (req, res) => {
+            const data = await new ZmqMessage().read();
             res.json(data);
         })
 
-        app.get('/clear_zmq', async (req, res) => {
-            await new Zmq().clear();
+        app.get('/clear_zmq_msgs', async (req, res) => {
+            await new ZmqMessage().clear();
             res.send('Cleared successfully');
-        })
-
-        app.get('/random', (req, res) => {
-            res.send(`${Math.floor(Math.random() * 1000_000_000)}`);
         })
 
         service = app;
 
     } catch (err) {
-        logger.error('Bot Service try init');
-        logger.error('Bot Service connection', err);
+        logger.error('REST Service try init');
+        logger.error('REST Service connection', err);
         if (connectionAttempt <= CONNECT_ATTEMPTS) {
             connectionAttempt += 1;
             setTimeout(function () {
-                startService({ port });
+                startService({ port, uid });
             }, 5000 * connectionAttempt);
         } else {
-            logger.info(`Stop trying connect to Bot Service after ${connectionAttempt} attempts`);
+            logger.info(`Stop trying connect to REST Service after ${connectionAttempt} attempts`);
         }
     }
 }

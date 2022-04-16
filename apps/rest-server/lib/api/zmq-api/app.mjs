@@ -1,11 +1,11 @@
 import * as zmq from 'zeromq';
-import { Zmq } from '../../models/index.mjs'
+import { ZmqMessage } from '../../models/index.mjs'
 import logger from '../logger.mjs';
 
 
-export async function startService({ zmqPubSubProxydUrl }) {
+export async function startService({ zmqPubSubProxydUrl, uid }) {
      const sock = new zmq.Subscriber();
-     sock.connect(`tcp://${zmqPubSubProxydUrl}:7001`);
+     sock.connect(zmqPubSubProxydUrl);
      sock.subscribe('#notify');
 
      process.on('unhandledRejection', (error) => {
@@ -16,13 +16,13 @@ export async function startService({ zmqPubSubProxydUrl }) {
           logger.error('uncaughtException', error.stack);
      });
 
-     logger.info('Service start listen ZMQ SUB: ', `tcp://${zmqPubSubProxydUrl}:7001`);
+     logger.info('Service start listen ZMQ SUB: ', zmqPubSubProxydUrl);
 
      for await (const [buffer] of sock) {
           try {
-               const rawMessage = buffer.toString('utf8');
+               const rawMessage = uid + ': ' + buffer.toString('utf8');
                logger.info('No controller for message: ', rawMessage);
-               await new Zmq().save({ msg: rawMessage });
+               await new ZmqMessage().save({ msg: rawMessage });
           } catch (e) {
                logger.error(e);
           }
