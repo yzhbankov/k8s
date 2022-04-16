@@ -24,7 +24,7 @@ export class UserRepository extends RepoBase {
     async save({ id }) {
         const result = await this.db
             .queryAsync(
-                'INSERT INTO users (id) VALUES (?)',
+                'INSERT INTO user_messages (id) VALUES (?)',
                 [id]
             )
             .catch((err) => {
@@ -39,7 +39,7 @@ export class UserRepository extends RepoBase {
      */
      async read() {
         const result = await this.db
-            .queryAsync('SELECT * FROM users')
+            .queryAsync('SELECT * FROM user_messages')
             .catch((err) => {
                 throw new RepoError(err);
             });
@@ -52,7 +52,7 @@ export class UserRepository extends RepoBase {
      */
      async clear() {
         const result = await this.db
-            .queryAsync('TRUNCATE TABLE users')
+            .queryAsync('TRUNCATE TABLE user_messages')
             .catch((err) => {
                 throw new RepoError(err);
             });

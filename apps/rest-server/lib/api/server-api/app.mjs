@@ -26,7 +26,7 @@ function startService({ port, uid }) {
         })
 
         app.get('/', async (req, res) => {
-            res.send('Hello, my uid: ', uid);
+            res.send(`Hello, my uid: ${uid}`);
         })
 
         app.get('/save_usr_msgs', async (req, res) => {
