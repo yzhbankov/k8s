@@ -1,10 +1,13 @@
 import { createLogger, LoggerTypes } from '@rtls-platform/logger/index.mjs';
+import { v4 as uuidv4 } from 'uuid';
 import * as App from './lib/api/index.mjs';
 import * as ServerApi from './lib/api/server-api/app.mjs';
 import * as ConfigContainer from './lib/config.cjs';
 
 
 export async function main() {
+    const uid = uuidv4();
+
     // Init Logger
     const logger = createLogger({
         type: LoggerTypes.Winston,
@@ -18,7 +21,8 @@ export async function main() {
     // Init Controllers Layer (API)
     ServerApi.startServer({
         port: ConfigContainer.config.serverPort,
-        zmqUrl: ConfigContainer.config.zmqUrl
+        zmqUrl: ConfigContainer.config.zmqUrl,
+        uid,
     });
 
     // Add Global Unhandled Errors Handlers

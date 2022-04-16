@@ -8,8 +8,8 @@ let connectionAttempt = 0;
 const sock = new zmq.Publisher();
 
 
-export function startServer({ port, zmqUrl }) {
-    service = startService({ port, zmqUrl });
+export function startServer({ port, zmqUrl, uid }) {
+    service = startService({ port, zmqUrl, uid });
 }
 
 export async function stopServer() {
@@ -19,7 +19,7 @@ export async function stopServer() {
     logger.info('WS Service stopped');
 }
 
-function startService({ port, zmqUrl }) {
+function startService({ port, zmqUrl, uid }) {
     try {
         const app = express();
         sock.bind(zmqUrl);
@@ -29,11 +29,11 @@ function startService({ port, zmqUrl }) {
         })
 
         app.get('/', async (req, res) => {
-            res.send('Hello');
+            res.send(`Hello, my uid: ${uid}`);
         })
 
         app.get('/send_msg', async (req, res) => {
-            await sock.send(`#notify  {message: ${JSON.stringify(req.query)}}`);
+            await sock.send(`#notify  {uid: ${uid}, message: ${JSON.stringify(req.query)}}`);
             res.send('Sent successfully');
         })
 
@@ -45,7 +45,7 @@ function startService({ port, zmqUrl }) {
         if (connectionAttempt <= CONNECT_ATTEMPTS) {
             connectionAttempt += 1;
             setTimeout(function () {
-                startService({ port });
+                startService({ port, zmqUrl, uid });
             }, 5000 * connectionAttempt);
         } else {
             logger.info(`Stop trying connect to Bot Service after ${connectionAttempt} attempts`);
