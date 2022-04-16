@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pub-app-deployment
+  name: push-app-deployment
   labels: 
-    app: pub-app
+    app: push-app
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: pub-app
+      app: push-app
   template:
     metadata:
       labels:
-        app: pub-app
+        app: push-app
     spec:
       containers:
-      - name: pub-app
-        image: yzhbankov/pub-app
+      - name: push-app
+        image: yzhbankov/push-app
         ports:
         - containerPort: 3001
           name: server-port
@@ -26,10 +26,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: pub-service
+  name: push-service
 spec:
   selector:
-    app: pub-app
+    app: push-app
   type: LoadBalancer
   ports:
   - protocol: TCP

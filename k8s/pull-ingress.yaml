@@ -1,16 +1,16 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sub-ingress
+  name: pull-ingress
 spec:
   rules:
-  - host: "sub-app.com"
+  - host: "pull-zmq.com"
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: sub-service
+            name: pull-service
             port:
               number: 3000

@@ -4,9 +4,8 @@ import logger from '../logger.mjs';
 
 
 export async function startService({ zmqPubSubProxydUrl, uid }) {
-     const sock = new zmq.Subscriber();
+     const sock = new zmq.Pull();
      sock.connect(zmqPubSubProxydUrl);
-     sock.subscribe('#notify');
 
      process.on('unhandledRejection', (error) => {
           logger.error('unhandledRejection', error.stack);

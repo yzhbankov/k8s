@@ -5,7 +5,7 @@ import logger from '../logger.mjs';
 let service = null;
 const CONNECT_ATTEMPTS = 10;
 let connectionAttempt = 0;
-const sock = new zmq.Publisher();
+const sock = new zmq.Push();
 
 
 export function startServer({ port, zmqUrl, uid }) {
@@ -33,8 +33,10 @@ function startService({ port, zmqUrl, uid }) {
         })
 
         app.get('/send_msg', async (req, res) => {
-            await sock.send(`#notify  {uid: ${uid}, message: ${JSON.stringify(req.query)}}`);
-            res.send('Sent successfully');
+            const message = `#notify  {uid: ${uid}, message: ${JSON.stringify(req.query)}}`;
+            console.log(message);
+            await sock.send(message);
+            res.send(`Sent successfully: ${uid}`);
         })
 
         service = app;
