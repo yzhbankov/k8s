@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: zmq-app-deployment
+  name: pub-app-deployment
   labels: 
-    app: zmq-app
+    app: pub-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: zmq-app
+      app: pub-app
   template:
     metadata:
       labels:
-        app: zmq-app
+        app: pub-app
     spec:
       containers:
-      - name: zmq-app
-        image: yzhbankov/zmq-app
+      - name: pub-app
+        image: yzhbankov/pub-app
         ports:
         - containerPort: 3001
           name: server-port
@@ -26,10 +26,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: zmq-app-service
+  name: pub-service
 spec:
   selector:
-    app: zmq-app
+    app: pub-app
   type: LoadBalancer
   ports:
   - protocol: TCP
