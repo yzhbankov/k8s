@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mariadb
+spec:
+  replicas: 3
+  serviceName: mariadb-headless
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:10.5
+          ports:
+            - name: tpc
+              protocol: TCP
+              containerPort: 3306
+          env:
+            - name: MARIADB_ALLOW_EMPTY_ROOT_PASSWORD
+              value: "0" # if it is 1 and root_password is set, root_password takes precedance
+            - name: MARIADB_ROOT_PASSWORD
+              value: secret
+            - name: MARIADB_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: mariadb-schema
+            - name: MARIADB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: mariadb-username
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb-secret
+                  key: mariadb-password
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        storageClassName: standard
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 200m
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb-headless
+  labels:
+    app: mariadb
+spec:
+  ports:
+  - name: mariadb
+    port: 3306
+  clusterIP: None
+  selector:
+    app: mariadb
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb-servcie
+spec:
+  selector:
+    app: mariadb
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306
