@@ -14,7 +14,8 @@
     "clean:node_modules": "rimraf node_modules",
     "reset": "yarn run clean && yarn install",
     "start:rs": "cd apps/rest-server && npm run start",
-    "start:zmq": "cd apps/zmq-service && npm run start"
+    "start:zmq": "cd apps/zmq-service && npm run start",
+    "start:proxy": "cd apps/proxy && npm run start"
   },
   "repository": {
     "type": "git",

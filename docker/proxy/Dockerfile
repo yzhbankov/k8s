@@ -9,7 +9,8 @@ RUN npm install --frozen-lockfile
 
 ENV NODE_ENV production
 
-EXPOSE 3001:3001
+EXPOSE 3002:3002
+EXPOSE 7001:7001
 EXPOSE 7002:7002
 
-CMD ["npm", "run", "start:zmq"]
+CMD ["npm", "run", "start:proxy"]
