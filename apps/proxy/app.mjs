@@ -1,4 +1,4 @@
-import { main } from './appSetup.mjs';
+import { main } from './appSetup';
 
 main().catch((err) => {
     console.error(err);

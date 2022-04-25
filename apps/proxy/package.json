@@ -1,0 +1,26 @@
+{
+  "name": "zmq-proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "apps/proxy/app.mjs",
+  "engines": {
+    "node": ">=14.15.4",
+    "npm": ">=6.14.10"
+  },
+  "scripts": {
+    "reset": "yarn clean && yarn",
+    "clean": "rimraf node_modules",
+    "start": "cross-env NODE_ENV=production node --experimental-modules --es-module-specifier-resolution=node app"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv-defaults": "^2.0.2",
+    "express": "^4.17.3",
+    "livr": "^2.3.3",
+    "livr-extra-rules": "^1.2.1",
+    "uuid": "^8.3.2",
+    "zeromq": "^6.0.0-beta.6"
+  },
+  "devDependencies": {},
+  "license": "UNLICENSED"
+}

@@ -5,7 +5,7 @@ import logger from '../logger.mjs';
 let service = null;
 const CONNECT_ATTEMPTS = 10;
 let connectionAttempt = 0;
-const sock = new zmq.Push();
+const sock = new zmq.Publisher();
 
 
 export function startServer({ port, zmqUrl, uid }) {
@@ -22,7 +22,8 @@ export async function stopServer() {
 function startService({ port, zmqUrl, uid }) {
     try {
         const app = express();
-        sock.bind(zmqUrl);
+        console.log(zmqUrl);
+        sock.connect(zmqUrl);
 
         app.listen(port, () => {
             console.log(`Example app listening on port ${port}`)
