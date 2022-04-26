@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: push-app
-        image: yzhbankov/push-app
+        image: yzhbankov/push-service
         ports:
         - containerPort: 3001
           name: server-port

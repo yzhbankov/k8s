@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: proxy-app
-        image: yzhbankov/proxy-app
+        image: yzhbankov/proxy-service
         ports:
         - containerPort: 3002
           name: server-port

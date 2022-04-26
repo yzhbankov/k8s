@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: pull-app
-        image: yzhbankov/pull-app
+        image: yzhbankov/pull-service
         ports:
         - containerPort: 3000
           name: node-port
