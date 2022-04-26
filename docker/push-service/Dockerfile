@@ -12,4 +12,4 @@ ENV NODE_ENV production
 EXPOSE 3001:3001
 EXPOSE 7002:7002
 
-CMD ["npm", "run", "start:zmq"]
+CMD ["npm", "run", "start:push-service"]

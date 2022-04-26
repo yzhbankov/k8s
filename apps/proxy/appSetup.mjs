@@ -21,7 +21,7 @@ export async function main() {
     // Init Controllers Layer (API)
     ServerApi.startServer({
         port: ConfigContainer.config.serverPort,
-        zmqSubUrl: ConfigContainer.config.zmqSubUrl,
+        zmqPullUrl: ConfigContainer.config.zmqPullUrl,
         zmqPushUrl: ConfigContainer.config.zmqPushUrl,
         uid,
     });

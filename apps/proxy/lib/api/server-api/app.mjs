@@ -6,34 +6,33 @@ let service = null;
 const CONNECT_ATTEMPTS = 10;
 let connectionAttempt = 0;
 const sockPush = new zmq.Push();
-const sockSub = new zmq.Subscriber();
+const sockPull = new zmq.Pull();
 
 
-export function startServer({ port, zmqSubUrl, zmqPushUrl, uid }) {
-    service = startService({ port, zmqSubUrl, zmqPushUrl, uid });
+export function startServer({ port, zmqPullUrl, zmqPushUrl, uid }) {
+    service = startService({ port, zmqPullUrl, zmqPushUrl, uid });
 }
 
 export async function stopServer() {
     if (!service) return;
 
     service.close();
-    logger.info('WS Service stopped');
+    logger.info('Service stopped');
 }
 
-function startService({ port, zmqSubUrl, zmqPushUrl, uid }) {
+function startService({ port, zmqPullUrl, zmqPushUrl, uid }) {
     try {
         const app = express();
 
         app.listen(port, async () => {
-            console.log(`Proxy app listening on port ${port}`);
-            console.log(`Proxy push ${zmqPushUrl}`);
-            console.log(`Proxy sub ${zmqSubUrl}`);
+            logger.info(`HTTP server listening on port ${port}`);
+            logger.info(`ZMQ push ${zmqPushUrl}`);
+            logger.info(`ZMQ pull ${zmqPullUrl}`);
             
             await sockPush.bind(zmqPushUrl);
-            await sockSub.bind(zmqSubUrl);
-            sockSub.subscribe();
+            await sockPull.bind(zmqPullUrl);
 
-            for await (const [message] of sockSub) {
+            for await (const [message] of sockPull) {
                 await sockPush.send(message.toString('utf8'));
             }
         });
@@ -50,10 +49,10 @@ function startService({ port, zmqSubUrl, zmqPushUrl, uid }) {
         if (connectionAttempt <= CONNECT_ATTEMPTS) {
             connectionAttempt += 1;
             setTimeout(function () {
-                startService({ port, zmqSubUrl, zmqPushUrl, uid });
+                startService({ port, zmqPullUrl, zmqPushUrl, uid });
             }, 5000 * connectionAttempt);
         } else {
-            logger.info(`Stop trying connect to Service after ${connectionAttempt} attempts`);
+            logger.info(`Stop trying connect to service after ${connectionAttempt} attempts`);
         }
     }
 }

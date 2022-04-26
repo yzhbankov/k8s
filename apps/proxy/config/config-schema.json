@@ -2,6 +2,6 @@
     "logLevel": ["required", "string"],
     "serviceName": ["required", "string"],
     "serverPort": ["required", "positive_integer"],
-    "zmqSubUrl": ["required", "string"],
+    "zmqPullUrl": ["required", "string"],
     "zmqPushUrl": ["required", "string"]
 }

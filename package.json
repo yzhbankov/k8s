@@ -13,8 +13,8 @@
     "clean": "lerna run clean && yarn run clean:node_modules",
     "clean:node_modules": "rimraf node_modules",
     "reset": "yarn run clean && yarn install",
-    "start:rs": "cd apps/rest-server && npm run start",
-    "start:zmq": "cd apps/zmq-service && npm run start",
+    "start:pull-service": "cd apps/pull-service && npm run start",
+    "start:push-service": "cd apps/push-service && npm run start",
     "start:proxy": "cd apps/proxy && npm run start"
   },
   "repository": {

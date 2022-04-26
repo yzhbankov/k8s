@@ -12,4 +12,4 @@ ENV NODE_ENV production
 EXPOSE 3000:3000
 EXPOSE 7001:7001
 
-CMD ["npm", "run", "start:rs"]
+CMD ["npm", "run", "start:pull-service"]
