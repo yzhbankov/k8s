@@ -19,8 +19,7 @@ export async function startService({ zmqPullUrl, uid }) {
 
      for await (const [buffer] of sock) {
           try {
-               const rawMessage = uid + ': ' + buffer.toString('utf8');
-               logger.info('No controller for message: ', rawMessage);
+               const rawMessage = 'pullServiceUid: ' + uid + '| ' + buffer.toString('utf8');
                await new ZmqMessage().save({ msg: rawMessage });
           } catch (e) {
                logger.error(e);
