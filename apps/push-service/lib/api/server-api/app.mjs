@@ -23,10 +23,10 @@ function startService({ port, zmqUrl, uid }) {
     try {
         const app = express();
         sock.connect(zmqUrl);
-        logger.info(`ZMQ listen on ${zmqUrl}`);
+        logger.info(`ZMQ listening on ${zmqUrl}`);
 
         app.listen(port, () => {
-            logger.info(`Example app listening on port ${port}`);
+            logger.info(`HTTP server listening on port ${port}`);
         })
 
         app.get('/', async (req, res) => {

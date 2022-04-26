@@ -14,7 +14,7 @@ export async function stopServer() {
     if (!service) return;
 
     service.close();
-    logger.info('REST Server stopped');
+    logger.info('HTTP Server stopped');
 }
 
 function startService({ port, uid }) {
@@ -22,7 +22,7 @@ function startService({ port, uid }) {
         const app = express();
 
         app.listen(port, () => {
-            console.log(`Example app listening on port ${port}`)
+            logger.info(`HTTP server listening on port ${port}`)
         })
 
         app.get('/', async (req, res) => {

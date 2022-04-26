@@ -44,7 +44,7 @@ export async function main() {
 
     ZmqApi.startService({
         uid,
-        zmqPubSubProxydUrl: ConfigContainer.config.zmqUrl
+        zmqPullUrl: ConfigContainer.config.zmqUrl
     });
 
     // Add Global Unhandled Errors Handlers

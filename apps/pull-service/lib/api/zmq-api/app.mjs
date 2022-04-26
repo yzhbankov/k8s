@@ -3,9 +3,9 @@ import { ZmqMessage } from '../../models/index.mjs'
 import logger from '../logger.mjs';
 
 
-export async function startService({ zmqPubSubProxydUrl, uid }) {
+export async function startService({ zmqPullUrl, uid }) {
      const sock = new zmq.Pull();
-     sock.connect(zmqPubSubProxydUrl);
+     sock.connect(zmqPullUrl);
 
      process.on('unhandledRejection', (error) => {
           logger.error('unhandledRejection', error.stack);
@@ -15,7 +15,7 @@ export async function startService({ zmqPubSubProxydUrl, uid }) {
           logger.error('uncaughtException', error.stack);
      });
 
-     logger.info('Service start listen ZMQ SUB: ', zmqPubSubProxydUrl);
+     logger.info('Start listening ZMQ: ', zmqPullUrl);
 
      for await (const [buffer] of sock) {
           try {
